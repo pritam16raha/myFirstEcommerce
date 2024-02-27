@@ -1,8 +1,8 @@
 //import React from 'react'
 import styled from 'styled-components';
-import { categoryData } from "./categoryData.js"
+import { categoryData } from "./categoryData"
 import CategoryItem from './CategoryItem';
-import { mobile } from '../../responsive.js';
+import { mobile } from '../../responsive';
 
 
 const Container = styled.div`

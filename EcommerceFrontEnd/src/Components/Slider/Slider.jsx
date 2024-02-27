@@ -7,13 +7,13 @@ import { mobile } from "../../responsive";
 
 const Slider = () => {
 
-    const [slideIndex , setSlider] = useState(0);
+    const [slideindex , setSlider] = useState(0);
 
     const handleClick= (direction) => {
         if(direction==="left"){
-            setSlider(slideIndex > 0 ? slideIndex-1 : 2)
+            setSlider(slideindex > 0 ? slideindex - 1 : 2)
         } else{
-            setSlider(slideIndex < 2 ? slideIndex + 1 : 0)
+            setSlider(slideindex < 2 ? slideindex + 1 : 0)
         }
     };
 
@@ -22,7 +22,7 @@ const Slider = () => {
         <Arrow direction="left" onClick={() => handleClick("left")}>
             <ArrowLeftOutlined />
         </Arrow>
-            <Wrapper slideIndex={slideIndex}>
+            <Wrapper slideindex={slideindex}>
                 {sliderItem.map((item) => (
                     <Slide bg={item.bg} key={item.id}>
                     <ImageContainer>
@@ -55,7 +55,7 @@ const Slider = () => {
   )
 }
 
-export default Slider
+export default Slider;
 
 const Container = styled.div`
     width: 100%;
@@ -79,30 +79,33 @@ const Arrow = styled.div`
     top: 0;
     bottom: 0;
 
-    left: ${props => props.direction === "left" &&  "10px"};
-    right: ${props => props.direction === "right" &&  "10px"};
+    left: ${(props) => props.direction === "left" &&  "10px"};
+    right: ${(props) => props.direction === "right" &&  "10px"};
     
     margin: auto;
     cursor: pointer;
     opacity: 0.5;
     z-index: 2;
+    &:hover{
+        transform: scale(1.2);
+    }
 `;
-
-// const Wrapper = styled.div`
-//     height: 100%;
-//     display: flex;
-//     transition: all 1.5s ease;
-//     //transform: translateX(${props => props.slideIndex * -100}vw);
-//     transform: translateX(${(props) => props.slideIndex * -100}vw);
-    
-// `
 
 const Wrapper = styled.div`
     height: 100%;
     display: flex;
     transition: all 1.5s ease;
-    //transform: translateX(${(props) => props.slideIndex * -100}vw);
-`;
+    //transform: translateX(${props => props.slideindex * -100}vw);
+    transform: translateX(${(props) => props.slideindex * -100}vw);
+    
+`
+
+// const Wrapper = styled.div`
+//     height: 100%;
+//     display: flex;
+//     transition: all 1.5s ease;
+//     //transform: translateX(${(props) => props.slideIndex * -100}vw);
+// `;
 
 
 const Slide = styled.div`
@@ -111,7 +114,7 @@ const Slide = styled.div`
     display: flex;
     align-items: center;
     //background-color: ${(props)=> props.bg};
-    background-color: ${(props) => props.bg};
+    background-color: #${(props) => props.bg};
 `;
 
 const ImageContainer = styled.div`
@@ -145,4 +148,5 @@ const Button = styled.button`
     padding: 20px;
     background-color: transparent;
     cursor: pointer;
+    
 `;

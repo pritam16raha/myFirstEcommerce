@@ -3,9 +3,15 @@ import NavBar from '../../Components/NavBar/NavBar';
 import AnnounceMent from '../../Components/Announcement/AnnounceMent';
 import NewsLetter from '../../Components/NewsLetter/NewsLetter';
 import Footer from '../../Components/Footer/Footer';
-import hornet from '../../assets/Slider/4.jpg'
+//import hornet from '../../assets/Slider/4.jpg'
 import { Remove , Add } from '@mui/icons-material';
 import { mobile } from '../../responsive';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+//import axios from 'axios';
+import { publicRequest } from '../../services/requestMethods';
+import { addProduct } from '../../Redux/cartRedux';
+import { useDispatch } from 'react-redux';
 //import React from 'react'
 
 const Container = styled.div`
@@ -79,6 +85,8 @@ const FilterColor = styled.div`
     &:hover{
         transform: scale(1.2);
     }
+
+    border: 2px solid grey;
 `;
 
 const FilterSize = styled.select`
@@ -135,6 +143,49 @@ const Amount= styled.span`
 
 
 const SingleProduct = () => {
+
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+
+    const[product, setProduct] = useState({});
+
+    const[quantity, setQuantity] = useState(1);
+
+    const [color, setColor] = useState("");
+
+    const [size , setSize] = useState("");
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const getProduct = async () => {
+            try{
+                const response = await publicRequest("/products/find/"+id)
+                setProduct (await response.data);
+            }catch(err){
+                console.log(err);
+            }
+        }
+        getProduct()
+    }, [id])
+
+
+    const handleQuantity = (type) => {
+        if(type === "decrease"){
+            quantity>1 && setQuantity(quantity-1)
+        } else{
+            setQuantity(quantity+1)
+        }
+    }
+
+    const handleClick = () => {
+        dispatch(addProduct({...product, quantity, color, size}));
+
+        //dispatch(addProduct({product, quantity, price: product.price*quantity }));
+        //update our cart using redux
+    }
+
+
   return (
     <Container>
 
@@ -146,43 +197,40 @@ const SingleProduct = () => {
 
             <Wrapper>
                 <ImageContainer>
-                <Image src={hornet}/>
+                    <Image src={product.img}/>
                 </ImageContainer>
                 <InfoContainer>
-                <Title>Bike Spare Kits</Title>
+                <Title>{product.title}</Title>
                 <Description>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                    venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-                    iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-                    tristique tortor pretium ut. Curabitur elit justo, consequat id
-                    condimentum ac, volutpat ornare.
+                    {product.desc}
                 </Description>
-                <Price>1.62k INR </Price>
+                <Price> {product.price} rs </Price>
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        <FilterColor color="black" />
-                        <FilterColor color="darkblue" />
-                        <FilterColor color="gray" />
+                        {
+                            product.color?.map((c) => (
+                                <FilterColor color={c} key={c} onClick={() => setColor(c)}/>
+                            ))
+                        }
                     </Filter>
                     <Filter>
-                        <FilterTitle>Size</FilterTitle>
+                        <FilterTitle onChange={(e) => setSize(e.target.value)}>Size</FilterTitle>
                             <FilterSize>
-                                <FilterSizeOption>Sporty</FilterSizeOption>
-                                <FilterSizeOption>Track</FilterSizeOption>
-                                <FilterSizeOption>City</FilterSizeOption>
-                                <FilterSizeOption>Naked</FilterSizeOption>
-                                <FilterSizeOption>Adventure</FilterSizeOption>
+                                {product.size?.map((s) => (
+                                    <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                                ))}
+             
                             </FilterSize>
                     </Filter>
                 </FilterContainer>
                 <AddContainer>
                     <AmountContainer>
-                        <Remove />
-                            <Amount>1</Amount>
-                        <Add />
+                        <Remove onClick={() => handleQuantity("decrease")}/>
+                            <Amount>{quantity}</Amount>
+                        <Add onClick={() => handleQuantity("increase")}/>
                     </AmountContainer>
-                    <Button>ADD TO CART</Button>
+                    {(product.inStock)? <Button onClick={handleClick}>ADD TO CART</Button> : <Button>Out Of Stock</Button>}
                 </AddContainer>
                 </InfoContainer>
             </Wrapper>

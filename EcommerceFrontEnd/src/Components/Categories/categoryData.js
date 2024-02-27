@@ -20,7 +20,7 @@ export const categoryData = [
     {
         id: 4,
         img: "../../src/assets/Categories/2.jpg",
-        title: "The In Line $ Cylinder Engine I just Want to Buy!",
+        title: "The In Line 4 Cylinder Engine I just Want to Buy!",
         category: "terrin"
     }
 ];

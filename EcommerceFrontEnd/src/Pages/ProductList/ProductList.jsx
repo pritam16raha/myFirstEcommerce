@@ -4,10 +4,11 @@ import NavBar from '../../Components/NavBar/NavBar';
 import AnnounceMent from '../../Components/Announcement/AnnounceMent';
 import NewsLetter from '../../Components/NewsLetter/NewsLetter';
 import Footer from '../../Components/Footer/Footer';
-import Product from '../../Components/Product/MultipleProductComponent';
+//import Product from '../../Components/Product/MultipleProductComponent';
 import { mobile } from '../../responsive';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import MultipleProductComponent from '../../Components/Product/MultipleProductComponent';
 
 const Container = styled.div`
   
@@ -51,7 +52,8 @@ const ProductList = () => {
   const location = useLocation();
   //console.log(location);
   const categories = location.pathname.split("/")[2]
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState("newest");
 
 
   const handleFilter = (e) => {
@@ -61,6 +63,7 @@ const ProductList = () => {
       [e.target.name]: value})
   }
 
+  
 
   console.log(filter)
   return (
@@ -68,25 +71,28 @@ const ProductList = () => {
       <NavBar />
         <AnnounceMent />
 
-      <Title>Dresses</Title>
+      <Title>{categories}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
-          <Select name='category' onChange={handleFilter}>
+          <Select name='color' onChange={handleFilter}>
             <Option disabled >
-              Category
+              Color
             </Option>
-            <Option>city</Option>
-            <Option>sport</Option>
-            <Option>racer</Option>
-            <Option>terrin</Option>
+            <Option>White</Option>
+            <Option>black</Option>
+            <Option>red</Option>
+            <Option>grey</Option>
+            <Option>blue</Option>
+
 
           </Select>
           <Select name='size' onChange={handleFilter}>
             <Option disabled >
               Size
             </Option>
-            <Option>XS</Option>
+            <Option>XXL</Option>
+            <Option>XXXL</Option>
             <Option>S</Option>
             <Option>M</Option>
             <Option>L</Option>
@@ -95,14 +101,14 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Newest</Option>
-            <Option>Price (asc)</Option>
-            <Option>Propularity</Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option value="newest">Newest</Option>
+            <Option value="asc">Price (asc)</Option>
+            <Option value="desc">Price (desc)</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Product />
+      <MultipleProductComponent categories={categories} filters={filter} sort={sort}/>
     <NewsLetter />
     <Footer />
     </Container>

@@ -6,9 +6,10 @@ import Cart from './Pages/Cart/Cart';
 import Login from './Pages/LoginPage/Login'
 import Register from './Pages/Register/Register'
 
-import HomePage from './Components/HomePage/HomePage'
-import SingleProduct from '../src/Pages/ProductList/SingleProduct';
-import ProductList from '../src/Pages/ProductList/ProductList'
+import HomePage from './Pages/HomePage/HomePage'
+import SingleProduct from './Pages/ProductList/SingleProduct';
+import ProductList from './Pages/ProductList/ProductList';
+//import Slider from './Components/Slider/Slider';
 //import Product from './Components/Product/Product';
 //import SingleProduct from './Pages/ProductList/SingleProduct'
 //import Register from './Pages/Register/Register'
@@ -18,7 +19,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
+  //Navigate,
 } from "react-router-dom";
 //import SingleProductComponent from './Components/Product/SingleProductComponent';
 
@@ -26,7 +27,7 @@ import {
 
 function App() {
   //const [count, setCount] = useState(0)
-  const user = true;
+  //const user = true;
   return (
     <Router>
       <Routes>
@@ -34,18 +35,28 @@ function App() {
 
           <Route path='/product/:category' element={<ProductList/>} />
 
-          <Route path='/product/:id' element={<SingleProduct />} />
+          {/* <Route path='/product' element={<ProductList/>} /> */}
+
+          <Route exact path='/singleproduct/:id' element={<SingleProduct />} />
 
           <Route path='/cart' element={<Cart/>} />
 
-          <Route path='/login' element={user ? <Navigate to="/" /> : <Login />} /> {/* If user is logged in, then redirect to home page, else go to login page */}
+          <Route path='/login' element={<Login />} />
 
-          <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} />
+          <Route path='/register' element={<Register />} />
+
+
+
+          {/* <Route path='/login' element={user ? <Navigate to="/" /> : <Login />} />  If user is logged in, then redirect to home page, else go to login page 
+
+          <Route path='/register' element={user ? <Navigate to="/" /> : <Register />} /> */}
 
           
 
       </Routes>
     </Router>
+
+    //  <Slider />
   )
 }
 
