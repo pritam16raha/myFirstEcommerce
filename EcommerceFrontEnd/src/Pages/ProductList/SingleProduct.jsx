@@ -9,7 +9,7 @@ import { mobile } from '../../responsive';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 //import axios from 'axios';
-import { publicRequest } from '../../services/requestMethods';
+import { publicRequest } from '../../services/requestMethod';
 import { addProduct } from '../../Redux/cartRedux';
 import { useDispatch } from 'react-redux';
 //import React from 'react'
@@ -84,8 +84,7 @@ const FilterColor = styled.div`
     transition: 0.2s;
     &:hover{
         transform: scale(1.2);
-    }
-
+    };
     border: 2px solid grey;
 `;
 
@@ -143,50 +142,54 @@ const Amount= styled.span`
 
 
 const SingleProduct = () => {
-
     const location = useLocation();
-    const id = location.pathname.split("/")[2];
-
+  //console.log(location);
+    const id = location.pathname.split("/")[2]
+  
     const[product, setProduct] = useState({});
 
-    const[quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(1);
 
-    const [color, setColor] = useState("");
+    const[color, setColor] = useState("");
 
-    const [size , setSize] = useState("");
+    const [size, setSize] = useState("");
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(()=>{
         const getProduct = async () => {
             try{
-                const response = await publicRequest("/products/find/"+id)
-                setProduct (await response.data);
+                const response = await publicRequest.get('/products/find/'+id);
+                setProduct(response.data)
             }catch(err){
-                console.log(err);
+                console.log(err)
             }
         }
         getProduct()
-    }, [id])
-
+    },[id])
+  
 
     const handleQuantity = (type) => {
-        if(type === "decrease"){
-            quantity>1 && setQuantity(quantity-1)
-        } else{
-            setQuantity(quantity+1)
-        }
-    }
+        if (type === "dec") {
+            quantity > 1 && setQuantity(quantity - 1);
+          } else {
+            setQuantity(quantity + 1);
+          }
+    };
+
+
 
     const handleClick = () => {
-        dispatch(addProduct({...product, quantity, color, size}));
+        //dispatch(addProduct({ product, quantity, price: product.price*quantity }));
 
-        //dispatch(addProduct({product, quantity, price: product.price*quantity }));
-        //update our cart using redux
+        dispatch(addProduct({ ...product, color, size, quantity }))
     }
 
 
-  return (
+
+
+
+    return (
     <Container>
 
 
@@ -204,33 +207,30 @@ const SingleProduct = () => {
                 <Description>
                     {product.desc}
                 </Description>
-                <Price> {product.price} rs </Price>
+                <Price> {product.price} Rs. </Price>
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        {
-                            product.color?.map((c) => (
-                                <FilterColor color={c} key={c} onClick={() => setColor(c)}/>
-                            ))
-                        }
+                        {product.color?.map((c) => (
+                            <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+                            ))}
                     </Filter>
                     <Filter>
-                        <FilterTitle onChange={(e) => setSize(e.target.value)}>Size</FilterTitle>
-                            <FilterSize>
-                                {product.size?.map((s) => (
+                        <FilterTitle>Size</FilterTitle>
+                            <FilterSize onChange={(e) => setSize(e.target.value)}>
+                            {product.size?.map((s) => (
                                     <FilterSizeOption key={s}>{s}</FilterSizeOption>
                                 ))}
-             
                             </FilterSize>
                     </Filter>
                 </FilterContainer>
                 <AddContainer>
                     <AmountContainer>
-                        <Remove onClick={() => handleQuantity("decrease")}/>
+                        <Remove onClick={() => handleQuantity("dec")}/>
                             <Amount>{quantity}</Amount>
-                        <Add onClick={() => handleQuantity("increase")}/>
+                        <Add onClick={() => handleQuantity("inc")}/>
                     </AmountContainer>
-                    {(product.inStock)? <Button onClick={handleClick}>ADD TO CART</Button> : <Button>Out Of Stock</Button>}
+                    {(product.inStock)? <Button onClick={handleClick}>ADD TO CART</Button> : <Button>OUT OF STOCK</Button>}
                 </AddContainer>
                 </InfoContainer>
             </Wrapper>

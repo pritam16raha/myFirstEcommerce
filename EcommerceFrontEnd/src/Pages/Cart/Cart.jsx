@@ -9,7 +9,6 @@ import Footer from '../../Components/Footer/Footer';
 import hornet from '../../assets/Slider/3.jpg';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../../responsive';
-import { useSelector } from 'react-redux';
 
 const Container = styled.div`
     
@@ -117,13 +116,6 @@ const ProductColour = styled.div`
     background-color: ${props=>props.color};
 `;
 
-const ProductSize = styled.div`
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    //background-color: ${props=>props.size};
-`
-
 const ProductCategory = styled.span`
     
 `;
@@ -189,11 +181,6 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-
-    const cart = useSelector(state => state.cart)
-
-
-
   return (
     <Container>
         <NavBar />
@@ -216,52 +203,64 @@ const Cart = () => {
                 <Buttom>
 
                     <Info>
-                        {cart.products.map((product) => {
-
-                            <Product>
+                        <Product>
                             <ProductDetails>
-                                <Image src={product.img}/>
+                                <Image src={hornet}/>
 
                                 <Details>
                                     <ProductName>
-                                        <b>Product: </b> {product.tit}
+                                        <b>Product: </b>HONDA HORNET 2.0
                                     </ProductName>
 
-                                    <ProductId><b>ID:</b> {product._id}</ProductId>
+                                    <ProductId><b>ID:</b> H1606</ProductId>
 
-                                    <ProductColour color={product.color}/>
+                                    <ProductColour color='blue'/>
 
-                                    <ProductSize>
-                                        <b>Size: </b> {product.size}
-                                    </ProductSize>
-
-                                    <ProductCategory><b>{product.categories} </b></ProductCategory>
+                                    <ProductCategory><b>Type: </b>Naked Sport</ProductCategory>
                                 </Details>
                             </ProductDetails>
 
                             <PriceDetails>
                                     <ProductAmountContainer>
                                             <Add />
-                                                <ProductAmount>{product.quantity}</ProductAmount>
+                                                <ProductAmount>2</ProductAmount>
                                             <Remove />
                                     </ProductAmountContainer>
 
-                                    <ProductPrice>{product.price}</ProductPrice>
+                                    <ProductPrice>1.62K INR</ProductPrice>
                             </PriceDetails>
                         </Product>
-                        }) 
-                    }
 
-                     
-                        
-                        
-                    
-                    
-                    
-                    <Hr />
+                            <Hr />
 
 
-                        
+                        <Product>
+                            <ProductDetails>
+                                <Image src={hornet}/>
+
+                                <Details>
+                                    <ProductName>
+                                        <b>Product: </b>HONDA HORNET 2.0
+                                    </ProductName>
+
+                                    <ProductId><b>ID:</b> H1606</ProductId>
+
+                                    <ProductColour color='blue'/>
+
+                                    <ProductCategory><b>Type: </b>Naked Sport</ProductCategory>
+                                </Details>
+                            </ProductDetails>
+
+                            <PriceDetails>
+                                    <ProductAmountContainer>
+                                            <Add />
+                                                <ProductAmount>2</ProductAmount>
+                                            <Remove />
+                                    </ProductAmountContainer>
+
+                                    <ProductPrice>1.62K INR</ProductPrice>
+                            </PriceDetails>
+                        </Product>
 
 
 

@@ -6,7 +6,6 @@ import styled from "styled-components"
 import { mobile } from "../../responsive";
 import logo from '../../assets/ProductData/logo.png'
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 
 const Container = styled.div `
@@ -79,9 +78,8 @@ const MenuItem = styled.div`
 
 const NavBar = () => {
 
-  const quantity = useSelector(state => state.cart.quantity);
-
-  console.log(quantity)
+  const quantity = useSelector(state=>state.cart.quantity);
+  console.log(quantity);
 
 
   return (
@@ -104,14 +102,12 @@ const NavBar = () => {
                     <MenuItem>
                     Sign In
                     </MenuItem>
-                    
-                      <Link to='/cart'>
-                          <MenuItem>
-                              <Badge badgeContent={quantity} color="primary">
-                                <ShoppingCartOutlined />
-                              </Badge>
-                          </MenuItem>
-                      </Link>
+
+                    <MenuItem>
+                        <Badge badgeContent={quantity} color="primary">
+                          <ShoppingCartOutlined />
+                        </Badge>
+                    </MenuItem>
             </Right>
         </Wrapper>
     </Container>
