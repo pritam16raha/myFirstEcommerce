@@ -9,6 +9,7 @@ import Footer from '../../Components/Footer/Footer';
 import hornet from '../../assets/Slider/3.jpg';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../../responsive';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
     
@@ -181,6 +182,9 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+
+    const cart = useSelector(state => state.cart)
+
   return (
     <Container>
         <NavBar />
@@ -203,64 +207,39 @@ const Cart = () => {
                 <Buttom>
 
                     <Info>
-                        <Product>
-                            <ProductDetails>
-                                <Image src={hornet}/>
+                            {cart.products.map( product => (
 
-                                <Details>
-                                    <ProductName>
-                                        <b>Product: </b>HONDA HORNET 2.0
-                                    </ProductName>
+                                <Product key={0}>
+                                <ProductDetails>
+                                    <Image src={product.img}/>
 
-                                    <ProductId><b>ID:</b> H1606</ProductId>
+                                    <Details>
+                                        <ProductName>
+                                            <b>Product: </b>{product.title}
+                                        </ProductName>
 
-                                    <ProductColour color='blue'/>
+                                        <ProductId><b>ID:</b> {product._id} </ProductId>
 
-                                    <ProductCategory><b>Type: </b>Naked Sport</ProductCategory>
-                                </Details>
-                            </ProductDetails>
+                                        <ProductColour color={product.color}/>
 
-                            <PriceDetails>
-                                    <ProductAmountContainer>
-                                            <Add />
-                                                <ProductAmount>2</ProductAmount>
-                                            <Remove />
-                                    </ProductAmountContainer>
+                                        <ProductCategory><b>Type: </b>{product.categories}</ProductCategory>
+                                    </Details>
+                                </ProductDetails>
 
-                                    <ProductPrice>1.62K INR</ProductPrice>
-                            </PriceDetails>
-                        </Product>
+                                <PriceDetails>
+                                        <ProductAmountContainer>
+                                                <Add />
+                                                    <ProductAmount>{product.quantity}</ProductAmount>
+                                                <Remove />
+                                        </ProductAmountContainer>
 
-                            <Hr />
-
-
-                        <Product>
-                            <ProductDetails>
-                                <Image src={hornet}/>
-
-                                <Details>
-                                    <ProductName>
-                                        <b>Product: </b>HONDA HORNET 2.0
-                                    </ProductName>
-
-                                    <ProductId><b>ID:</b> H1606</ProductId>
-
-                                    <ProductColour color='blue'/>
-
-                                    <ProductCategory><b>Type: </b>Naked Sport</ProductCategory>
-                                </Details>
-                            </ProductDetails>
-
-                            <PriceDetails>
-                                    <ProductAmountContainer>
-                                            <Add />
-                                                <ProductAmount>2</ProductAmount>
-                                            <Remove />
-                                    </ProductAmountContainer>
-
-                                    <ProductPrice>1.62K INR</ProductPrice>
-                            </PriceDetails>
-                        </Product>
+                                        <ProductPrice><b>Product Total: </b>{product.price * product.quantity} Rs. </ProductPrice>
+                                </PriceDetails>
+                            </Product>
+                            ))}
+    
+    
+    <Hr />
 
 
 
@@ -274,7 +253,7 @@ const Cart = () => {
                         <SummaryItem>
                             <SummaryItemText>Sub-Total: </SummaryItemText>
 
-                            <SummaryItemPrice>1.62k INR</SummaryItemPrice>
+                            <SummaryItemPrice>{cart.total}</SummaryItemPrice>
                         </SummaryItem>
 
                         <SummaryItem>
@@ -292,7 +271,7 @@ const Cart = () => {
                         <SummaryItem type="total">
                             <SummaryItemText>Total: </SummaryItemText>
 
-                            <SummaryItemPrice>1.62k INR</SummaryItemPrice>
+                            <SummaryItemPrice>{cart.total}</SummaryItemPrice>
                         </SummaryItem>
                             
                             <Button>

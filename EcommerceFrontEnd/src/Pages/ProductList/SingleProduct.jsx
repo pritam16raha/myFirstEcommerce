@@ -180,10 +180,10 @@ const SingleProduct = () => {
 
 
     const handleClick = () => {
-        //dispatch(addProduct({ product, quantity, price: product.price*quantity }));
-
-        dispatch(addProduct({ ...product, color, size, quantity }))
-    }
+        dispatch(
+            addProduct({ ...product, quantity, color, size })
+            );
+    };
 
 
 
