@@ -35,9 +35,6 @@ const MultipleProductComponent = ({categories, filters, sort}) => {
   }, [categories]);
 
 
-  console.log(filters)
-
-
   useEffect(() => {
     categories && filters && setFilteredProduct(
       product.filter((item) => Object.entries(filters).every(([key, value]) => item[key].includes(value)))
@@ -56,13 +53,14 @@ const MultipleProductComponent = ({categories, filters, sort}) => {
 
   return (
     <Container>
+
         {categories? filteredProduct.map((item) => (
-            <SingleProductComponent item={item} key={item.index} />))
+            <SingleProductComponent item={item} key={item.id} />))
             
             :
             
             product.slice(0,8).map((item) => (
-              <SingleProductComponent item={item} key={item.index} />))
+              <SingleProductComponent item={item} key={item.id} />))
             }
     </Container>
   );

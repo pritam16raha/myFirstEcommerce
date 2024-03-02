@@ -38,13 +38,13 @@ const Container = styled.div`
     }
 `;
 
-const Circle = styled.div`
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: lightblue;
-    position: absolute;
-`;
+// const Circle = styled.div`
+//     width: 200px;
+//     height: 200px;
+//     border-radius: 50%;
+//     background-color: lightblue;
+//     position: absolute;
+// `;
 
 const Image = styled.img`
     height: 75%;
@@ -75,7 +75,7 @@ const SingleProductComponent = ({item}) => {
   //console.log(item)
   return (
     <Container>
-        <Circle />
+        {/* <Circle /> */}
         <Image src={item.img}/>
         <Info>
             <Icon>
@@ -84,7 +84,7 @@ const SingleProductComponent = ({item}) => {
 
             <Icon>
 
-              <Link to={`/singleproduct/${item._id}`}>
+              <Link to={`/product/${item._id}`}>
                   <SearchOutlined />
               </Link>
 
@@ -102,11 +102,11 @@ const SingleProductComponent = ({item}) => {
 SingleProductComponent.propTypes = {
   item: PropTypes.shape({
     category: PropTypes.string,
-    id: PropTypes.number,
+    _id: PropTypes.string,
     title: PropTypes.string.isRequired,
     img: PropTypes.string.isRequired
    }), // Add this line for prop type validation
-  };
+};
 
 
 

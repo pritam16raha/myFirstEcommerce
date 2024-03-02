@@ -165,7 +165,7 @@ const SingleProduct = () => {
                 console.log(err)
             }
         }
-        getProduct()
+        getProduct();
     },[id])
   
 

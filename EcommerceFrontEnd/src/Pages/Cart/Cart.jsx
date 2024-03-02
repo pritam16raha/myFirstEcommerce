@@ -1,3 +1,4 @@
+
 import styled from 'styled-components'
 
 import NavBar from '../../Components/NavBar/NavBar';
@@ -6,10 +7,145 @@ import Announcement from '../../Components/Announcement/AnnounceMent';
 
 import Footer from '../../Components/Footer/Footer';
 
-import hornet from '../../assets/Slider/3.jpg';
+import logo from '../../assets/ProductData/logo.png'
+
+//import hornet from '../../assets/Slider/3.jpg';
 import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../../responsive';
 import { useSelector } from 'react-redux';
+
+import StripeCheckout from 'react-stripe-checkout';
+import { useState } from 'react';
+
+
+const KEY = import.meta.env.VITE_REACT_STRIPE;
+
+
+const Cart = () => {
+
+    const cart = useSelector(state => state.cart);
+
+    const [stripetoken, setStripeToken] = useState(null);
+
+    const onToken = (token) => {
+        setStripeToken(token);
+    };
+
+    console.log(stripetoken);
+
+  return (
+    <Container>
+        <NavBar />
+        <Announcement />
+            <Wrapper>
+                <Title>Your Bag</Title>
+
+                <Top>
+
+                    <TopButton>CONTINUE SHOPPING</TopButton>
+                        <TopTexts>
+                            <TopText>SHOPPING BAG(2)</TopText>
+                            <TopText>WISHLIST(0)</TopText>
+                        </TopTexts>
+
+                    <TopButton type='filled'>CHECKOUT NOW</TopButton>
+
+                </Top>
+
+                <Buttom>
+
+                    <Info>
+                            {cart.products.map( product => (
+
+                                <Product key={0}>
+                                <ProductDetails>
+                                    <Image src={product.img}/>
+
+                                    <Details>
+                                        <ProductName>
+                                            <b>Product: </b>{product.title}
+                                        </ProductName>
+
+                                        <ProductId><b>ID:</b> {product._id} </ProductId>
+
+                                        <ProductColour color={product.color}/>
+
+                                        <ProductCategory><b>Type: </b>{product.categories}</ProductCategory>
+                                    </Details>
+                                </ProductDetails>
+
+                                <PriceDetails>
+                                        <ProductAmountContainer>
+                                                <Add />
+                                                    <ProductAmount>{product.quantity}</ProductAmount>
+                                                <Remove />
+                                        </ProductAmountContainer>
+
+                                        <ProductPrice><b>Product Total: </b>{product.price * product.quantity} Rs. </ProductPrice>
+                                </PriceDetails>
+                            </Product>
+                            ))}
+    
+    
+    <Hr />
+
+
+
+                    </Info>
+
+                    <Summary>
+                        <SummaryTitle>
+                            ORDER SUMMARY
+                        </SummaryTitle>
+
+                        <SummaryItem>
+                            <SummaryItemText>Sub-Total: </SummaryItemText>
+
+                            <SummaryItemPrice>{cart.total}</SummaryItemPrice>
+                        </SummaryItem>
+
+                        <SummaryItem>
+                            <SummaryItemText>Estimated Shipping</SummaryItemText>
+
+                            <SummaryItemPrice><b>Now: </b>Free</SummaryItemPrice>
+                        </SummaryItem>
+
+                        <SummaryItem>
+                            <SummaryItemText>Shipping Discount</SummaryItemText>
+
+                            <SummaryItemPrice>Zero</SummaryItemPrice>
+                        </SummaryItem>
+
+                        <SummaryItem type="total">
+                            <SummaryItemText>Total: </SummaryItemText>
+
+                            <SummaryItemPrice>{cart.total}</SummaryItemPrice>
+                        </SummaryItem>
+                            
+                        <StripeCheckout 
+                                        name='Pritam Co' 
+                                        image={logo}
+                                        billingAddress
+                                        shippingAddress
+                                        description={`Pritam's Bill. Total is: ${cart.total}`}
+                                        amount={cart.total*1}
+                                        token={onToken}
+                                        stripeKey={KEY}
+                        >
+                            <Button>CHECKOUT NOW</Button>
+                            </StripeCheckout>
+
+                    </Summary>
+
+
+                </Buttom>
+            </Wrapper>
+        <Footer />
+    </Container>
+  )
+}
+
+export default Cart;
 
 const Container = styled.div`
     
@@ -180,114 +316,3 @@ const Button = styled.button`
     }
 
 `;
-
-const Cart = () => {
-
-    const cart = useSelector(state => state.cart)
-
-  return (
-    <Container>
-        <NavBar />
-        <Announcement />
-            <Wrapper>
-                <Title>Your Bag</Title>
-
-                <Top>
-
-                    <TopButton>CONTINUE SHOPPING</TopButton>
-                        <TopTexts>
-                            <TopText>SHOPPING BAG(2)</TopText>
-                            <TopText>WISHLIST(0)</TopText>
-                        </TopTexts>
-
-                    <TopButton type='filled'>CHECKOUT NOW</TopButton>
-
-                </Top>
-
-                <Buttom>
-
-                    <Info>
-                            {cart.products.map( product => (
-
-                                <Product key={0}>
-                                <ProductDetails>
-                                    <Image src={product.img}/>
-
-                                    <Details>
-                                        <ProductName>
-                                            <b>Product: </b>{product.title}
-                                        </ProductName>
-
-                                        <ProductId><b>ID:</b> {product._id} </ProductId>
-
-                                        <ProductColour color={product.color}/>
-
-                                        <ProductCategory><b>Type: </b>{product.categories}</ProductCategory>
-                                    </Details>
-                                </ProductDetails>
-
-                                <PriceDetails>
-                                        <ProductAmountContainer>
-                                                <Add />
-                                                    <ProductAmount>{product.quantity}</ProductAmount>
-                                                <Remove />
-                                        </ProductAmountContainer>
-
-                                        <ProductPrice><b>Product Total: </b>{product.price * product.quantity} Rs. </ProductPrice>
-                                </PriceDetails>
-                            </Product>
-                            ))}
-    
-    
-    <Hr />
-
-
-
-                    </Info>
-
-                    <Summary>
-                        <SummaryTitle>
-                            ORDER SUMMARY
-                        </SummaryTitle>
-
-                        <SummaryItem>
-                            <SummaryItemText>Sub-Total: </SummaryItemText>
-
-                            <SummaryItemPrice>{cart.total}</SummaryItemPrice>
-                        </SummaryItem>
-
-                        <SummaryItem>
-                            <SummaryItemText>Estimated Shipping</SummaryItemText>
-
-                            <SummaryItemPrice><b>Now: </b>Free</SummaryItemPrice>
-                        </SummaryItem>
-
-                        <SummaryItem>
-                            <SummaryItemText>Shipping Discount</SummaryItemText>
-
-                            <SummaryItemPrice>Zero</SummaryItemPrice>
-                        </SummaryItem>
-
-                        <SummaryItem type="total">
-                            <SummaryItemText>Total: </SummaryItemText>
-
-                            <SummaryItemPrice>{cart.total}</SummaryItemPrice>
-                        </SummaryItem>
-                            
-                            <Button>
-
-                                CHECKOUT NOW
-
-                            </Button>
-
-                    </Summary>
-
-
-                </Buttom>
-            </Wrapper>
-        <Footer />
-    </Container>
-  )
-}
-
-export default Cart;

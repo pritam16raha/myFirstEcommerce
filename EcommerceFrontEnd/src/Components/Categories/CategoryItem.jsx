@@ -57,10 +57,10 @@ const CategoryItem = ({item}) => {
   return (
     
     <Container>
-      <Link to={`/product/${item.category}`}>
+      <Link to={`/products/${item.categories}`}>
         <Image src={item.img}/>
         <Info>
-          <Title>{item.title}</Title>
+          <Title>{item.title} </Title>
           <Button>Shop Now</Button>
         </Info>
       </Link>
@@ -69,7 +69,7 @@ const CategoryItem = ({item}) => {
   }
   CategoryItem.propTypes = {
      item: PropTypes.shape({
-      category: PropTypes.string.isRequired,
+      categories: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       img: PropTypes.string.isRequired
